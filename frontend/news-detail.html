@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>新闻详情 - 易普工业大学</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-detail .header {
+      background: transparent;
+      box-shadow: none;
+    }
+    .page-detail .header.is-scrolled {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    }
+    .page-detail .header.is-scrolled .header__logo-title,
+    .page-detail .header.is-scrolled .header__logo-en,
+    .page-detail .header.is-scrolled .header__nav-list > li > a { color: var(--color-text); }
+    .page-detail .header .header__logo-title,
+    .page-detail .header .header__logo-en,
+    .page-detail .header .header__nav-list > li > a {
+      color: #fff;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    .page-detail .header .header__logo-badge--hero { display: block; }
+    .page-detail .header .header__logo-badge--scrolled { display: none; }
+    .page-detail .header.is-scrolled .header__logo-badge--hero { display: none; }
+    .page-detail .header.is-scrolled .header__logo-badge--scrolled { display: block; }
+    .page-detail .header .header__search { color: #fff; }
+    .page-detail .header.is-scrolled .header__search { color: var(--color-text); }
+    .page-detail .header .header__login-btn { color: #fff; }
+    .page-detail .header.is-scrolled .header__login-btn { color: var(--color-text); }
+    .page-detail .header__menu-toggle span,
+    .page-detail .header__menu-toggle::before,
+    .page-detail .header__menu-toggle::after { background: #fff; }
+    .page-detail .header.is-scrolled .header__menu-toggle span,
+    .page-detail .header.is-scrolled .header__menu-toggle::before,
+    .page-detail .header.is-scrolled .header__menu-toggle::after { background: var(--color-text); }
+
+    .page-hero {
+      background: url('https://picsum.photos/id/20/1920/1080') center/cover no-repeat;
+      padding: 120px 0 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+      pointer-events: none;
+    }
+    .page-hero__content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .page-hero__title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 12px;
+      letter-spacing: 0.02em;
+    }
+    .page-hero__subtitle {
+      font-size: 1.125rem;
+      color: rgba(255,255,255,0.85);
+      margin: 0;
+    }
+
+    .page-content {
+      padding: 56px 0 80px;
+      background: var(--color-bg);
+    }
+    .page-content__inner {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .news-detail__back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      color: var(--color-primary);
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .news-detail__back:hover { text-decoration: underline; }
+    .news-detail__article {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 40px 48px;
+    }
+    .news-detail__meta {
+      font-size: 0.875rem;
+      color: var(--color-primary);
+      font-weight: 500;
+      margin-bottom: 12px;
+    }
+    .news-detail__title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--color-text);
+      margin: 0 0 12px;
+      line-height: 1.35;
+    }
+    .news-detail__subtitle {
+      font-size: 1.0625rem;
+      color: var(--color-text-muted);
+      margin: 0 0 24px;
+    }
+    .news-detail__body-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0 0 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .news-detail__body {
+      font-size: 1rem;
+      color: var(--color-text);
+      line-height: 1.85;
+      margin: 0;
+      overflow: visible;
+      white-space: normal;
+    }
+    .news-detail__body p { margin: 0 0 1em; }
+    .news-detail__body p:last-child { margin-bottom: 0; }
+    .news-detail__body-empty {
+      color: var(--color-text-muted);
+      font-style: italic;
+    }
+    .news-detail-loading,
+    .news-detail-error {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--color-text-muted);
+    }
+  </style>
+</head>
+<body class="page-detail">
+  <header class="header" id="header" role="banner">
+    <div class="header__inner">
+      <a href="index.html" class="header__logo" aria-label="首页">
+        <img src="ChatGPT Image 2026年2月28日 11_58_13.png" alt="" class="header__logo-badge header__logo-badge--hero" width="48" height="48" aria-hidden="true" />
+        <img src="logo.png" alt="" class="header__logo-badge header__logo-badge--scrolled" width="48" height="48" aria-hidden="true" />
+        <span class="header__logo-text-wrap">
+          <span class="header__logo-title">易普工业大学</span>
+          <span class="header__logo-en">Industrial University</span>
+        </span>
+      </a>
+      <nav class="header__nav" aria-label="主导航">
+        <ul class="header__nav-list">
+          <li><a href="index.html" class="header__nav-home">首页</a></li>
+          <li class="has-dropdown">
+            <a href="index.html#about">学校概况</a>
+            <ul class="dropdown">
+              <li><a href="#">校庆献辞</a></li>
+              <li><a href="#">学校沿革</a></li>
+              <li><a href="#">历任领导</a></li>
+              <li><a href="#">现任领导</a></li>
+              <li><a href="#">组织机构</a></li>
+              <li><a href="#">统计资料</a></li>
+              <li><a href="#">信息公开</a></li>
+            </ul>
+          </li>
+          <li><a href="index.html#colleges">院系设置</a></li>
+          <li class="has-dropdown">
+            <a href="index.html#news">教育教学</a>
+            <ul class="dropdown">
+              <li><a href="#">师资队伍</a></li>
+              <li><a href="#">本科生教育</a></li>
+              <li><a href="#">研究生教育</a></li>
+              <li><a href="#">在线教育</a></li>
+              <li><a href="#">终身教育</a></li>
+              <li><a href="#">国际合作</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href="index.html#stats">科学研究</a>
+            <ul class="dropdown">
+              <li><a href="#">科研项目</a></li>
+              <li><a href="#">科研机构</a></li>
+              <li><a href="#">科研合作</a></li>
+              <li><a href="#">科研成果</a></li>
+              <li><a href="#">技术转移</a></li>
+              <li><a href="#">学术交流</a></li>
+            </ul>
+          </li>
+          <li><a href="index.html#cta">招生就业</a></li>
+          <li><a href="index.html#gallery">合作交流</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <a href="login.html" class="header__login-btn" id="loginBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          <span>登录</span>
+        </a>
+        <div class="header__search-wrap" id="searchWrap">
+          <button type="button" class="header__search" aria-label="搜索" id="searchBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+        </div>
+        <button type="button" class="header__menu-btn" aria-label="打开菜单" id="menuBtn">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="page-hero">
+    <nav class="breadcrumb breadcrumb--on-hero" aria-label="面包屑导航">
+      <div class="container">
+        <ol class="breadcrumb__list">
+          <li class="breadcrumb__item"><a href="index.html">首页</a></li>
+          <li class="breadcrumb__item"><a href="news.html">新闻动态</a></li>
+          <li class="breadcrumb__item" aria-current="page" id="breadcrumbCurrent">新闻详情</li>
+        </ol>
+      </div>
+    </nav>
+    <div class="page-hero__content">
+      <h1 class="page-hero__title" id="detailTitle">新闻详情</h1>
+      <p class="page-hero__subtitle" id="detailSubtitle">加载中…</p>
+    </div>
+  </section>
+
+  <main class="page-content">
+    <div class="page-content__inner">
+      <a href="news.html" class="news-detail__back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        返回更多新闻
+      </a>
+      <div id="detailLoading" class="news-detail-loading">加载中…</div>
+      <div id="detailError" class="news-detail-error" style="display:none;">未找到该新闻或加载失败。</div>
+      <article id="detailArticle" class="news-detail__article" style="display:none;">
+        <div class="news-detail__meta" id="detailMeta"></div>
+        <h1 class="news-detail__title" id="detailArticleTitle"></h1>
+        <p class="news-detail__subtitle" id="detailArticleSubtitle" style="display:none;"></p>
+        <h2 class="news-detail__body-title">正文</h2>
+        <div class="news-detail__body" id="detailBody"></div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="footer__logo">
+            <img src="ChatGPT Image 2026年2月28日 11_58_13.png" alt="" width="40" height="40" />
+            <span>易普工业大学</span>
+          </a>
+          <p class="footer__tagline">工业报国 · 追求卓越</p>
+        </div>
+        <div class="footer__links">
+          <h4 class="footer__heading">快速链接</h4>
+          <ul class="footer__list">
+            <li><a href="#">学校概况</a></li>
+            <li><a href="#">院系设置</a></li>
+            <li><a href="#">科学研究</a></li>
+            <li><a href="#">招生信息</a></li>
+          </ul>
+        </div>
+        <div class="footer__links">
+          <h4 class="footer__heading">常用服务</h4>
+          <ul class="footer__list">
+            <li><a href="#">学生事务</a></li>
+            <li><a href="#">就业服务</a></li>
+            <li><a href="#">图书馆</a></li>
+            <li><a href="#">校园邮箱</a></li>
+          </ul>
+        </div>
+        <div class="footer__links">
+          <h4 class="footer__heading">关注我们</h4>
+          <ul class="footer__list">
+            <li><a href="#">官方微信</a></li>
+            <li><a href="#">官方微博</a></li>
+            <li><a href="#">抖音短视频</a></li>
+            <li><a href="#">Bilibili</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2025 易普工业大学 版权所有 | <a href="#">隐私政策</a> | <a href="#">网站地图</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/config.js"></script>
+  <script>
+    (function () {
+      function getId() {
+        var search = window.location.search || '';
+        var match = /[?&]id=(\d+)/.exec(search);
+        if (match) return parseInt(match[1], 10);
+        var pathId = /\/news-detail\.html\/?(\d+)/.exec(window.location.pathname || '');
+        return pathId ? parseInt(pathId[1], 10) : 0;
+      }
+      function escapeHtml(str) {
+        if (str == null) return '';
+        var div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+      /** 展示本条新闻的全部正文：优先 body，无则用 summary；按双换行分段，段内单换行转 br，不截断 */
+      function renderBody(data) {
+        var raw = '';
+        if (data.body != null && String(data.body).trim() !== '') {
+          raw = String(data.body).trim();
+        } else if (data.summary != null && String(data.summary).trim() !== '') {
+          raw = String(data.summary).trim();
+        }
+        if (!raw) return '<p class="news-detail__body-empty">暂无正文内容。</p>';
+        var paragraphs = raw.split(/\n\n+/).map(function (p) { return p.trim(); }).filter(Boolean);
+        if (paragraphs.length === 0) return '<p class="news-detail__body-empty">暂无正文内容。</p>';
+        return paragraphs.map(function (p) {
+          var html = escapeHtml(p).replace(/\n/g, '<br>');
+          return '<p>' + html + '</p>';
+        }).join('');
+      }
+
+      var id = getId();
+      var loadingEl = document.getElementById('detailLoading');
+      var errorEl = document.getElementById('detailError');
+      var articleEl = document.getElementById('detailArticle');
+      var titleHero = document.getElementById('detailTitle');
+      var subtitleHero = document.getElementById('detailSubtitle');
+      var metaEl = document.getElementById('detailMeta');
+      var articleTitleEl = document.getElementById('detailArticleTitle');
+      var articleSubtitleEl = document.getElementById('detailArticleSubtitle');
+      var bodyEl = document.getElementById('detailBody');
+
+      function showArticle(data) {
+        loadingEl.style.display = 'none';
+        errorEl.style.display = 'none';
+        articleEl.style.display = 'block';
+        titleHero.textContent = data.title || '新闻详情';
+        subtitleHero.textContent = data.subtitle || data.date_display || '';
+        metaEl.textContent = data.date_display || '';
+        articleTitleEl.textContent = data.title || '';
+        if (data.subtitle) {
+          articleSubtitleEl.textContent = data.subtitle;
+          articleSubtitleEl.style.display = 'block';
+        } else {
+          articleSubtitleEl.style.display = 'none';
+        }
+        bodyEl.innerHTML = renderBody(data);
+        document.title = (data.title || '新闻详情') + ' - 易普工业大学';
+        var bc = document.getElementById('breadcrumbCurrent');
+        if (bc) bc.textContent = data.title || '新闻详情';
+      }
+      function showError() {
+        loadingEl.style.display = 'none';
+        articleEl.style.display = 'none';
+        errorEl.style.display = 'block';
+        titleHero.textContent = '新闻详情';
+        subtitleHero.textContent = '';
+      }
+
+      if (!id) {
+        var base = (window.location.pathname || '/').replace(/\/[^/]*$/, '/') || '/';
+        window.location.replace(window.location.origin + base + 'news.html');
+        return;
+      }
+      if (window.location.protocol === 'file:') {
+        errorEl.textContent = '请通过本地服务访问并携带 id 参数（如 news-detail.html?id=1）。';
+        showError();
+        return;
+      }
+      var apiBase = window.API_BASE || 'http://localhost:3000';
+      fetch(apiBase + '/api/news/' + id)
+        .then(function (r) { return r.json(); })
+        .then(function (result) {
+          if (result && result.success && result.data) {
+            showArticle(result.data);
+          } else {
+            showError();
+          }
+        })
+        .catch(function () {
+          showError();
+        });
+    })();
+  </script>
+</body>
+</html>

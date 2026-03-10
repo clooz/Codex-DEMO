@@ -1,0 +1,124 @@
+{
+  "currentState": "initial",
+  "stateHistory": [
+    {
+      "from": "initial",
+      "command": "discover",
+      "timestamp": "2026-02-27T02:11:51.597Z",
+      "args": []
+    },
+    {
+      "from": "initial",
+      "command": "project",
+      "timestamp": "2026-02-27T03:10:08.183Z",
+      "args": [
+        {
+          "workingDirectory": "d:\\新建文件夹\\网站2",
+          "ideType": "cursor"
+        }
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "discover",
+      "timestamp": "2026-02-27T03:12:25.091Z",
+      "args": []
+    },
+    {
+      "from": "initial",
+      "command": "action",
+      "timestamp": "2026-02-27T03:13:20.861Z",
+      "args": [
+        "senior-product-manager",
+        "all"
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "action",
+      "timestamp": "2026-02-27T03:17:31.462Z",
+      "args": [
+        "ui-ux-designer",
+        "all"
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "action",
+      "timestamp": "2026-02-27T03:21:08.994Z",
+      "args": [
+        "frontend-developer",
+        "all"
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "action",
+      "timestamp": "2026-02-27T03:28:18.753Z",
+      "args": [
+        "ui-ux-designer",
+        "all"
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "action",
+      "timestamp": "2026-02-27T03:56:33.596Z",
+      "args": [
+        "ui-ux-designer",
+        "all"
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "project",
+      "timestamp": "2026-02-27T06:26:11.549Z",
+      "args": []
+    },
+    {
+      "from": "initial",
+      "command": "discover",
+      "timestamp": "2026-02-27T06:26:24.631Z",
+      "args": []
+    },
+    {
+      "from": "initial",
+      "command": "action",
+      "timestamp": "2026-02-27T06:30:29.345Z",
+      "args": [
+        "shaqing",
+        null
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "recall",
+      "timestamp": "2026-02-27T06:30:36.002Z",
+      "args": [
+        {
+          "role": "shaqing",
+          "query": null
+        }
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "action",
+      "timestamp": "2026-02-27T06:44:05.854Z",
+      "args": [
+        "senior-product-manager",
+        "all"
+      ]
+    },
+    {
+      "from": "initial",
+      "command": "action",
+      "timestamp": "2026-02-27T06:47:00.582Z",
+      "args": [
+        "ui-ux-designer",
+        "all"
+      ]
+    }
+  ],
+  "lastUpdated": "2026-02-27T06:47:00.586Z"
+}

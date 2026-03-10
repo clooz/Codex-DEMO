@@ -1,0 +1,32 @@
+{
+  "name": "demo-login-backend",
+  "version": "1.0.0",
+  "description": "Node.js + Express 登录服务，连接 MySQL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "seed": "node seed.js",
+    "seed:reservations": "node seed-reservations.js",
+    "seed:news": "node seed-news.js",
+    "seed:stats": "node seed-stats.js",
+    "seed:colleges": "node seed-colleges.js",
+    "seed:key-dates": "node seed-key-dates.js",
+    "seed:inquiries": "node seed-inquiries.js",
+    "seed:homepage": "node seed-stats.js && node seed-colleges.js && node seed-key-dates.js",
+    "migrate:news": "node migrate-news.js",
+    "users": "node list-users.js",
+    "tables": "node list-tables.js",
+    "data": "node list-data.js",
+    "test:reservations": "node test/reservations-api.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "mysql2": "^3.11.0"
+  }
+}

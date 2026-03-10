@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>留言管理（演示） - 易普工业大学</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --color-primary: #0D47A1;
+      --color-text: #1A1A2E;
+      --color-text-muted: #5C5C6D;
+      --color-border: #E8E8ED;
+      --color-bg: #FAFAFC;
+      --radius-md: 12px;
+      --shadow-card: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans SC', sans-serif; background: var(--color-bg); color: var(--color-text); padding: 24px; }
+    .manage-header {
+      max-width: 900px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .manage-header h1 { font-size: 1.5rem; }
+    .manage-header a { color: var(--color-primary); }
+    .manage-card {
+      max-width: 900px;
+      margin: 0 auto 20px;
+      background: #fff;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-card);
+      padding: 20px;
+    }
+    .manage-card h2 { font-size: 1.1rem; margin-bottom: 16px; color: var(--color-text-muted); }
+    .inquiry-item {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    .inquiry-item:last-child { margin-bottom: 0; }
+    .inquiry-item__row { margin-bottom: 6px; font-size: 14px; }
+    .inquiry-item__label { color: var(--color-text-muted); margin-right: 8px; }
+    .inquiry-item__content { margin: 12px 0; padding: 10px; background: var(--color-bg); border-radius: 8px; white-space: pre-wrap; }
+    .inquiry-item__reply-box { margin-top: 12px; }
+    .inquiry-item__reply-box textarea {
+      width: 100%;
+      min-height: 80px;
+      padding: 10px;
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .inquiry-item__reply-box .btn {
+      padding: 8px 16px;
+      margin-right: 8px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .inquiry-item__reply-box .btn--reply { background: var(--color-primary); color: #fff; }
+    .inquiry-item__reply-box .btn--processed { background: #E8F5E9; color: #2E7D32; }
+    .inquiry-item__admin-reply {
+      margin-top: 10px;
+      padding: 10px;
+      background: #E8F5E9;
+      border-radius: 8px;
+      font-size: 14px;
+      border-left: 3px solid #4CAF50;
+    }
+    .inquiry-item__status {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+    .inquiry-item__status--pending { background: #FFF3E0; color: #E65100; }
+    .inquiry-item__status--replied { background: #E8F5E9; color: #2E7D32; }
+    .inquiry-item__status--processed { background: #E3F2FD; color: #1565C0; }
+    .msg { padding: 12px; border-radius: 8px; margin-bottom: 12px; }
+    .msg--success { background: #E8F5E9; color: #2E7D32; }
+    .msg--error { background: #FFEBEE; color: #c62828; }
+  </style>
+</head>
+<body>
+  <div class="manage-header">
+    <h1>留言管理（演示）</h1>
+    <a href="inquiry-query.html">← 返回留言查询</a>
+  </div>
+  <div class="manage-card">
+    <h2>全部留言（回复或标记已处理即「改」Update）</h2>
+    <div id="listContainer">
+      <p style="color: var(--color-text-muted);">加载中…</p>
+    </div>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script>
+    (function() {
+      var apiBase = window.API_BASE || 'http://localhost:3000';
+      var listEl = document.getElementById('listContainer');
+
+      function escapeHtml(s) {
+        if (s == null || s === undefined) return '';
+        var d = document.createElement('div');
+        d.textContent = String(s);
+        return d.innerHTML;
+      }
+
+      function statusText(s) {
+        if (s === 'replied') return '已回复';
+        if (s === 'processed') return '已处理';
+        return '待处理';
+      }
+
+      function statusClass(s) {
+        if (s === 'replied') return 'inquiry-item__status--replied';
+        if (s === 'processed') return 'inquiry-item__status--processed';
+        return 'inquiry-item__status--pending';
+      }
+
+      function renderList(data) {
+        if (!Array.isArray(data) || data.length === 0) {
+          listEl.innerHTML = '<p style="color: var(--color-text-muted);">暂无留言。</p>';
+          return;
+        }
+        var html = '';
+        data.forEach(function(r) {
+          var id = r.id;
+          var status = r.status || 'pending';
+          var adminReply = (r.admin_reply || '').trim();
+          html += '<div class="inquiry-item" data-id="' + id + '">';
+          html += '<div class="inquiry-item__row"><span class="inquiry-item__label">ID</span>' + id + ' <span class="inquiry-item__status ' + statusClass(status) + '">' + statusText(status) + '</span></div>';
+          html += '<div class="inquiry-item__row"><span class="inquiry-item__label">姓名</span>' + escapeHtml(r.name) + '</div>';
+          html += '<div class="inquiry-item__row"><span class="inquiry-item__label">电话</span>' + escapeHtml(r.phone) + '</div>';
+          html += '<div class="inquiry-item__row"><span class="inquiry-item__label">类型</span>' + escapeHtml(r.inquiry_type || '—') + '</div>';
+          html += '<div class="inquiry-item__row"><span class="inquiry-item__label">内容</span></div>';
+          html += '<div class="inquiry-item__content">' + escapeHtml((r.content || '').replace(/\n/g, '\n')) + '</div>';
+          if (adminReply) {
+            html += '<div class="inquiry-item__admin-reply" style="white-space:pre-wrap">招生办回复：' + escapeHtml(adminReply) + '</div>';
+          }
+          html += '<div class="inquiry-item__reply-box">';
+          html += '<textarea placeholder="填写回复内容后点击「回复留言」" id="reply_' + id + '">' + escapeHtml(adminReply) + '</textarea>';
+          html += '<button type="button" class="btn btn--reply" data-action="reply" data-id="' + id + '">回复留言</button>';
+          html += '<button type="button" class="btn btn--processed" data-action="processed" data-id="' + id + '">标记已处理</button>';
+          html += '<span id="msg_' + id + '"></span>';
+          html += '</div>';
+          html += '</div>';
+        });
+        listEl.innerHTML = html;
+
+        listEl.querySelectorAll('[data-action]').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            var id = this.getAttribute('data-id');
+            var action = this.getAttribute('data-action');
+            var msgEl = document.getElementById('msg_' + id);
+            var body = {};
+            if (action === 'reply') {
+              var reply = (document.getElementById('reply_' + id).value || '').trim();
+              if (!reply) { msgEl.textContent = '请先填写回复内容'; msgEl.className = 'msg msg--error'; return; }
+              body.admin_reply = reply;
+              body.status = 'replied';
+            } else {
+              body.status = 'processed';
+            }
+            btn.disabled = true;
+            fetch(apiBase + '/api/inquiries/' + id, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body)
+            })
+              .then(function(r) { return r.json(); })
+              .then(function(res) {
+                if (res && res.success) {
+                  msgEl.textContent = '已更新';
+                  msgEl.className = 'msg msg--success';
+                  loadList();
+                } else {
+                  msgEl.textContent = (res && res.message) || '操作失败';
+                  msgEl.className = 'msg msg--error';
+                }
+              })
+              .catch(function() {
+                msgEl.textContent = '网络错误';
+                msgEl.className = 'msg msg--error';
+              })
+              .finally(function() { btn.disabled = false; });
+          });
+        });
+      }
+
+      function loadList() {
+        listEl.innerHTML = '<p style="color: var(--color-text-muted);">加载中…</p>';
+        fetch(apiBase + '/api/inquiries?limit=50')
+          .then(function(r) { return r.json(); })
+          .then(function(res) {
+            if (res && res.success && Array.isArray(res.data)) {
+              renderList(res.data);
+            } else {
+              listEl.innerHTML = '<p class="msg msg--error">' + (res && res.message ? escapeHtml(res.message) : '加载失败') + '</p>';
+            }
+          })
+          .catch(function() {
+            listEl.innerHTML = '<p class="msg msg--error">网络错误，请确认后端已启动（' + escapeHtml(apiBase) + '）。</p>';
+          });
+      }
+
+      loadList();
+    })();
+  </script>
+</body>
+</html>

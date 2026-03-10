@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>用户登录 - 易普工业大学</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --color-primary: #0D47A1;
+      --color-primary-hover: #1565C0;
+      --color-primary-light: #E3F2FD;
+      --color-text: #1A1A2E;
+      --color-text-muted: #5C5C6D;
+      --color-border: #E8E8ED;
+      --color-white: #FFFFFF;
+      --color-error: #D32F2F;
+      --color-error-bg: #FFEBEE;
+      --space-8: 8px;
+      --space-12: 12px;
+      --space-16: 16px;
+      --space-20: 20px;
+      --space-24: 24px;
+      --space-28: 28px;
+      --space-32: 32px;
+      --space-40: 40px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      min-height: 100vh;
+      background: #0D47A1;
+    }
+    
+    /* 背景容器 */
+    .login-page {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 40px;
+      overflow: hidden;
+    }
+    
+    /* 背景图片 */
+    .login-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    
+    .login-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .login-bg::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(13, 71, 161, 0.88) 0%, rgba(30, 60, 114, 0.82) 50%, rgba(21, 101, 192, 0.75) 100%);
+    }
+    
+    /* 登录卡片 - 半透明玻璃效果 */
+    .login-card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border-radius: 24px;
+      padding: 36px;
+      box-shadow: 
+        0 30px 100px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      margin-right: 10%;
+      animation: slideIn 0.6s ease-out;
+    }
+    
+    .login-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .login-bg::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        linear-gradient(135deg, rgba(13, 71, 161, 0.92) 0%, rgba(13, 71, 161, 0.88) 35%, rgba(21, 101, 192, 0.75) 100%),
+        url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+    
+    /* 左侧装饰区域 */
+    .login-decoration {
+      position: absolute;
+      left: 8%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+      color: #fff;
+      max-width: 480px;
+    }
+    
+    .login-decoration .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    
+    .login-decoration .logo img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    }
+    
+    .login-decoration .logo-text {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    
+    .login-decoration .logo-en {
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0.85;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+    
+    .login-decoration .title {
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    
+    .login-decoration .desc {
+      font-size: 18px;
+      line-height: 1.7;
+      opacity: 0.9;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.2);
+    }
+    
+    /* 装饰圆点 */
+    .login-decoration .dots {
+      display: flex;
+      gap: 12px;
+      margin-top: 40px;
+    }
+    
+    .login-decoration .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .login-decoration .dot:nth-child(2) { animation-delay: 0.3s; }
+    .login-decoration .dot:nth-child(3) { animation-delay: 0.6s; }
+    
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.4; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+    
+    /* 登录卡片 */
+    .login-card {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 400px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(240,248,255,0.92) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 18px;
+      padding: 28px;
+      box-shadow: 
+        0 20px 60px rgba(0,0,0,0.25),
+        0 0 0 1px rgba(255,255,255,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.8);
+      margin-right: 8%;
+      animation: slideIn 0.6s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(13,71,161,0.3), transparent);
+    }
+    
+    .login-card .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    
+    .login-card .header h1 {
+      font-size: 26px;
+      font-weight: 700;
+      color: #0D47A1;
+      margin-bottom: 6px;
+    }
+    
+    .login-card .header p {
+      font-size: 14px;
+      color: #5C5C6D;
+    }
+    
+    .login-pane {
+      display: block;
+    }
+    
+    /* 表单 */
+    .form-group {
+      margin-bottom: 18px;
+    }
+    
+    .form-label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1A1A2E;
+      margin-bottom: 8px;
+    }
+    
+    .form-input {
+      width: 100%;
+      height: 48px;
+      padding: 0 16px 0 48px;
+      font-size: 15px;
+      border: 1.5px solid rgba(13, 71, 161, 0.2);
+      border-radius: 12px;
+      outline: none;
+      transition: all 0.25s ease;
+      background: rgba(255, 255, 255, 0.95);
+    }
+    
+    .form-input:focus {
+      border-color: #0D47A1;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(13, 71, 161, 0.12);
+    }
+    
+    .form-input::placeholder {
+      color: #a0a0a0;
+    }
+    
+    .input-wrap {
+      position: relative;
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #0D47A1;
+      opacity: 0.6;
+      z-index: 1;
+    }
+    
+    .input-icon svg {
+      display: block;
+      width: 20px;
+      height: 20px;
+    }
+    
+    .form-error {
+      font-size: 12px;
+      color: #D32F2F;
+      margin-top: 6px;
+      min-height: 0;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    
+    .form-error:not(:empty) {
+      opacity: 1;
+    }
+    
+    /* 验证码行 */
+    .form-row {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    
+    .form-row .form-group {
+      flex: 1;
+    }
+    
+    .captcha-wrap {
+      display: flex;
+      align-items: flex-start;
+      padding-top: 26px;
+    }
+    
+    .captcha-img {
+      width: 110px;
+      height: 48px;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 1.5px solid rgba(13, 71, 161, 0.2);
+      transition: all 0.2s;
+    }
+    
+    .captcha-img:hover {
+      border-color: #0D47A1;
+    }
+    
+    /* 密码显示按钮 */
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #0D47A1;
+      opacity: 0.5;
+      padding: 4px;
+      transition: opacity 0.2s;
+    }
+    
+    .password-toggle:hover {
+      opacity: 1;
+    }
+    
+    /* 选项 */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 20px 0;
+    }
+    
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+    
+    .checkbox-wrap input {
+      width: 16px;
+      height: 16px;
+      accent-color: #0D47A1;
+    }
+    
+    .checkbox-wrap span {
+      font-size: 14px;
+      color: #5C5C6D;
+    }
+    
+    .form-link {
+      font-size: 14px;
+      color: #0D47A1;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .form-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* 登录按钮 */
+    .login-btn {
+      width: 100%;
+      height: 52px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #0D47A1 0%, #1565C0 100%);
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 24px rgba(13, 71, 161, 0.4);
+      letter-spacing: 3px;
+    }
+    
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(13, 71, 161, 0.5);
+    }
+    
+    .login-btn:active {
+      transform: translateY(0);
+    }
+    
+    /* 错误提示 */
+    .login-error {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+      border-radius: 12px;
+      color: #D32F2F;
+      font-size: 14px;
+      animation: shake 0.4s ease;
+      border: 1px solid rgba(211, 47, 47, 0.2);
+    }
+    
+    .login-error.show {
+      display: flex;
+    }
+    
+    /* 底部 */
+    .login-footer {
+      margin-top: 24px;
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid rgba(13, 71, 161, 0.1);
+    }
+    
+    .login-footer p {
+      font-size: 14px;
+      color: #5C5C6D;
+    }
+    
+    .login-copyright {
+      font-size: 12px;
+      color: #999;
+      margin-top: 10px;
+    }
+    
+    .form-row .form-group {
+      flex: 1;
+    }
+    
+    .captcha-img {
+      width: 95px;
+      height: 42px;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1.5px solid rgba(13,71,161,0.2);
+      transition: all 0.2s;
+    }
+    
+    .captcha-img:hover {
+      border-color: #0D47A1;
+    }
+    
+    /* 密码显示按钮 */
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #0D47A1;
+      opacity: 0.5;
+      padding: 4px;
+      transition: opacity 0.2s;
+    }
+    
+    .password-toggle:hover {
+      opacity: 1;
+    }
+    
+    /* 选项 */
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 14px 0;
+    }
+    
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+    
+    .checkbox-wrap input {
+      width: 15px;
+      height: 15px;
+      accent-color: #0D47A1;
+    }
+    
+    .checkbox-wrap span {
+      font-size: 12px;
+      color: #5C5C6D;
+    }
+    
+    .form-link {
+      font-size: 12px;
+      color: #0D47A1;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .form-link:hover {
+      text-decoration: underline;
+    }
+    
+    /* 登录按钮 */
+    .login-btn {
+      width: 100%;
+      height: 44px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(135deg, #0D47A1 0%, #1565C0 100%);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 16px rgba(13,71,161,0.35);
+      letter-spacing: 2px;
+    }
+    
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(13,71,161,0.45);
+    }
+    
+    .login-btn:active {
+      transform: translateY(0);
+    }
+    
+    /* 错误提示 */
+    .login-error {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: linear-gradient(135deg, #FFEBEE 0%, #FFCDD2 100%);
+      border-radius: 10px;
+      color: #D32F2F;
+      font-size: 13px;
+      animation: shake 0.4s ease;
+      border: 1px solid rgba(211,47,47,0.2);
+    }
+    
+    .login-error.show {
+      display: flex;
+    }
+    
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    
+    /* 底部 */
+    .login-footer {
+      margin-top: 16px;
+      text-align: center;
+      padding-top: 14px;
+      border-top: 1px solid rgba(13,71,161,0.1);
+    }
+    
+    .login-footer p {
+      font-size: 12px;
+      color: #5C5C6D;
+    }
+    
+    .login-copyright {
+      font-size: 11px;
+      color: #999;
+      margin-top: 8px;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 1200px) {
+      .login-decoration {
+        display: none;
+      }
+      
+      .login-card {
+        margin-right: auto;
+        margin-left: auto;
+      }
+      
+      .login-page {
+        justify-content: center;
+        padding: 20px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 28px 24px;
+        border-radius: 20px;
+      }
+      
+      .login-card .header h1 {
+        font-size: 22px;
+      }
+      
+      .form-row {
+        flex-direction: column;
+      }
+      
+      .captcha-img {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="breadcrumb breadcrumb--no-offset" aria-label="面包屑导航" style="background: rgba(255,255,255,0.95);">
+    <div class="container">
+      <ol class="breadcrumb__list">
+        <li class="breadcrumb__item"><a href="index.html">首页</a></li>
+        <li class="breadcrumb__item" aria-current="page">登录</li>
+      </ol>
+    </div>
+  </nav>
+  <div class="login-page">
+    <!-- 背景 -->
+    <div class="login-bg">
+      <img src="https://picsum.photos/id/1015/1920/1080" alt="校园背景" />
+    </div>
+    
+    <!-- 左侧装饰 -->
+    <div class="login-decoration">
+      <div class="logo">
+        <img src="logo.png" alt="易普工业大学" />
+        <div>
+          <div class="logo-text">易普工业大学</div>
+          <div class="logo-en">Industrial University</div>
+        </div>
+      </div>
+      <h1 class="title">欢迎使用<br>统一身份认证</h1>
+      <p class="desc">连接学术与未来，开启智慧校园之旅。易普工业大学致力于培养创新型人才。</p>
+      <div class="dots">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+    
+    <!-- 右侧登录卡片 -->
+    <div class="login-card">
+      <div class="header">
+        <h1>欢迎登录</h1>
+        <p>统一身份认证平台</p>
+      </div>
+      
+      <form id="loginForm">
+        <!-- 账号密码登录 -->
+        <div class="login-pane active" id="pane-password">
+          <div class="form-group">
+            <label class="form-label">用户名 / 学号</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+              </span>
+              <input type="text" id="username" class="form-input" placeholder="请输入用户名或学号" required />
+            </div>
+            <div class="form-error" id="username-error"></div>
+          </div>
+          
+          <div class="form-group">
+            <label class="form-label">密码</label>
+            <div class="input-wrap">
+              <span class="input-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </span>
+              <input type="password" id="password" class="form-input" placeholder="请输入密码" required />
+              <button type="button" class="password-toggle" id="pwdToggle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <div class="form-error" id="password-error"></div>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">图形验证码</label>
+              <input type="text" id="captcha" class="form-input" placeholder="请输入验证码" required />
+              <div class="form-error" id="captcha-error"></div>
+            </div>
+            <div class="captcha-wrap">
+              <img id="captchaImg" class="captcha-img" alt="验证码" title="点击刷新" />
+            </div>
+          </div>
+          
+          <div class="form-options">
+            <label class="checkbox-wrap">
+              <input type="checkbox" id="remember" />
+              <span>记住我</span>
+            </label>
+            <a href="#" class="form-link">忘记密码？</a>
+          </div>
+        </div>
+        
+        <button type="button" class="login-btn" id="loginBtn">登 录</button>
+        
+        <div class="login-error" id="loginError">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span id="errorText"></span>
+        </div>
+      </form>
+      
+      <div class="login-footer">
+        <p>首次登录？请先 <a href="#" class="form-link">激活账号</a></p>
+        <p class="login-copyright">© 2025 易普工业大学 版权所有</p>
+      </div>
+    </div>
+  </div>
+  
+  <script src="js/config.js"></script>
+  <script>
+    (function() {
+      var form = document.getElementById('loginForm');
+      var captchaImg = document.getElementById('captchaImg');
+      var pwdToggle = document.getElementById('pwdToggle');
+      var loginError = document.getElementById('loginError');
+      var errorText = document.getElementById('errorText');
+      var loginBtn = document.getElementById('loginBtn');
+      
+      // 验证码 - Canvas生成
+      function refreshCaptcha() {
+        var canvas = document.createElement('canvas');
+        canvas.width = 110;
+        canvas.height = 50;
+        var ctx = canvas.getContext('2d');
+        
+        // 背景
+        ctx.fillStyle = '#f8f9fa';
+        ctx.fillRect(0, 0, 110, 50);
+        
+        // 生成随机4位验证码
+        var chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+        var code = '';
+        for (var i = 0; i < 4; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        localStorage.setItem('login_captcha', code);
+        
+        // 绘制文字
+        ctx.font = 'bold 22px Arial';
+        ctx.fillStyle = '#0D47A1';
+        ctx.textAlign = 'center';
+        ctx.fillText(code, 55, 33);
+        
+        // 添加干扰线
+        ctx.strokeStyle = '#d0d0d0';
+        for (var j = 0; j < 3; j++) {
+          ctx.beginPath();
+          ctx.moveTo(Math.random() * 110, Math.random() * 50);
+          ctx.lineTo(Math.random() * 110, Math.random() * 50);
+          ctx.stroke();
+        }
+        
+        captchaImg.src = canvas.toDataURL();
+      }
+      captchaImg.addEventListener('click', refreshCaptcha);
+      refreshCaptcha();
+      
+      // 密码显示/隐藏
+      var pwdInput = document.getElementById('password');
+      pwdToggle.addEventListener('click', function() {
+        var isPwd = pwdInput.type === 'password';
+        pwdInput.type = isPwd ? 'text' : 'password';
+      });
+      
+      // 错误显示
+      function showError(id, msg) {
+        document.getElementById(id + '-error').textContent = msg;
+      }
+      function clearErrors() {
+        document.querySelectorAll('.form-error').forEach(function(el) { el.textContent = ''; });
+        loginError.classList.remove('show');
+      }
+      function showLoginError(msg) {
+        errorText.textContent = msg;
+        loginError.classList.add('show');
+      }
+      
+      // 登录按钮
+      loginBtn.addEventListener('click', function() {
+        clearErrors();
+        
+        var username = document.getElementById('username').value.trim();
+        var password = document.getElementById('password').value;
+        var captcha = document.getElementById('captcha').value.trim();
+        
+        if (!username) { showError('username', '请输入用户名'); return; }
+        if (!password) { showError('password', '请输入密码'); return; }
+        if (!captcha) { showError('captcha', '请输入验证码'); return; }
+        
+        var savedCaptcha = (localStorage.getItem('login_captcha') || '').toUpperCase();
+        if (captcha.toUpperCase() !== savedCaptcha) {
+          showError('captcha', '验证码错误，请重试');
+          refreshCaptcha();
+          return;
+        }
+        
+        // 调用后端登录接口
+        loginBtn.disabled = true;
+        fetch((window.API_BASE || 'http://localhost:3000') + '/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: username, password: password })
+        })
+          .then(function(r) { return r.json().then(function(data) { return { ok: r.ok, status: r.status, data: data }; }); })
+          .then(function(result) {
+            var data = result.data;
+            if (data && data.success) {
+              localStorage.setItem('auth_token', 'token');
+              localStorage.setItem('user_info', JSON.stringify({ name: '用户', username: username }));
+              window.location.href = 'index.html';
+            } else {
+              var msg = (result.status === 500 && data && data.error) ? ('服务器错误: ' + data.error) : '用户名或密码错误，请重试';
+              showLoginError(msg);
+              refreshCaptcha();
+            }
+          })
+          .catch(function() {
+            showLoginError('网络错误，请确认后端服务已启动');
+            refreshCaptcha();
+          })
+          .finally(function() { loginBtn.disabled = false; });
+      });
+    })();
+  </script>
+</body>
+</html>

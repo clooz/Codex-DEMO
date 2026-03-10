@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>查询我的留言 - 易普工业大学</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --color-primary: #0D47A1;
+      --color-primary-light: #E3F2FD;
+      --color-text: #1A1A2E;
+      --color-text-muted: #5C5C6D;
+      --color-border: #E8E8ED;
+      --color-bg: #FAFAFC;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Noto Sans SC', sans-serif; background: var(--color-bg); color: var(--color-text); line-height: 1.6; }
+
+    .campus-hero {
+      background: url('https://picsum.photos/id/20/1920/1080') center/cover no-repeat;
+      padding: 120px 0 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    .campus-hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.45);
+    }
+    .campus-hero__content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .campus-hero__title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: #fff; margin-bottom: 12px; }
+    .campus-hero__subtitle { font-size: 1.125rem; color: rgba(255,255,255,0.85); }
+
+    .query-main {
+      max-width: 800px;
+      margin: 56px auto 80px;
+      padding: 0 24px;
+    }
+    .query-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+    .query-card__title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--color-primary);
+      display: inline-block;
+    }
+    .query-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: flex-end;
+    }
+    .query-form .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .query-form label { font-size: 14px; font-weight: 500; color: var(--color-text); }
+    .query-form label span { color: #f44336; }
+    .query-form input {
+      padding: 12px 16px;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      min-width: 220px;
+    }
+    .query-form input:focus {
+      outline: none;
+      border-color: var(--color-primary);
+    }
+    .query-form .submit-btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #0D47A1 0%, #1565C0 100%);
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+    }
+    .query-form .submit-btn:hover { opacity: 0.95; }
+    .query-form .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .query-result { margin-top: 8px; }
+    .query-result--empty,
+    .query-result--error {
+      color: var(--color-text-muted);
+      padding: 24px;
+      text-align: center;
+    }
+    .query-result--error { color: #c62828; }
+    .query-result-list { list-style: none; }
+    .query-result-item {
+      background: var(--color-bg);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 16px;
+      border-left: 4px solid var(--color-primary);
+    }
+    .query-result-item:last-child { margin-bottom: 0; }
+    .query-result-item__row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 24px;
+      margin-bottom: 8px;
+    }
+    .query-result-item__row:last-child { margin-bottom: 0; }
+    .query-result-item__label { color: var(--color-text-muted); font-size: 14px; }
+    .query-result-item__value { font-weight: 500; }
+    .query-result-item__meta { font-size: 13px; color: var(--color-text-muted); margin-top: 12px; }
+    .query-result-item__reply {
+      margin-top: 12px;
+      padding: 12px;
+      background: #E8F5E9;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      border-left: 3px solid #4CAF50;
+    }
+    .query-result-item__reply-title { font-weight: 600; color: #2E7D32; margin-bottom: 4px; }
+    .query-result-item__status {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+    .query-result-item__status--pending { background: #FFF3E0; color: #E65100; }
+    .query-result-item__status--replied { background: #E8F5E9; color: #2E7D32; }
+    .query-result-item__status--processed { background: #E3F2FD; color: #1565C0; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <script>
+    document.write(`<header class="header" id="header" role="banner">
+    <div class="header__inner">
+      <a href="index.html" class="header__logo" aria-label="首页">
+        <img src="ChatGPT Image 2026年2月28日 11_58_13.png" alt="" class="header__logo-badge header__logo-badge--hero" width="48" height="48" aria-hidden="true" />
+        <img src="logo.png" alt="" class="header__logo-badge header__logo-badge--scrolled" width="48" height="48" aria-hidden="true" />
+        <span class="header__logo-text-wrap">
+          <span class="header__logo-title">易普工业大学</span>
+          <span class="header__logo-en">Industrial University</span>
+        </span>
+      </a>
+      <nav class="header__nav" aria-label="主导航">
+        <ul class="header__nav-list">
+          <li><a href="index.html" class="header__nav-home">首页</a></li>
+          <li><a href="index.html#about">学校概况</a></li>
+          <li><a href="index.html#colleges">院系设置</a></li>
+          <li><a href="index.html#news">教育教学</a></li>
+          <li><a href="index.html#stats">科学研究</a></li>
+          <li><a href="index.html#cta">招生就业</a></li>
+          <li><a href="opencampus.html">校园开放日</a></li>
+          <li><a href="reservation-query.html">预约查询</a></li>
+          <li><a href="inquiry-query.html" class="is-active">留言查询</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <a href="login.html" class="header__login-btn" id="loginBtn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg><span>登录</span></a>
+        <button type="button" class="header__menu-btn" aria-label="打开菜单" id="menuBtn"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+    <div class="header__mobile-nav" id="mobileNav" aria-hidden="true">
+      <ul class="header__mobile-list">
+        <li><a href="index.html">首页</a></li>
+        <li><a href="opencampus.html">校园开放日</a></li>
+        <li><a href="reservation-query.html">预约查询</a></li>
+        <li><a href="inquiry-query.html">留言查询</a></li>
+      </ul>
+    </div>
+  </header>`);
+  </script>
+
+  <section class="campus-hero">
+    <nav class="breadcrumb breadcrumb--on-hero" aria-label="面包屑导航">
+      <div class="container">
+        <ol class="breadcrumb__list">
+          <li class="breadcrumb__item"><a href="index.html">首页</a></li>
+          <li class="breadcrumb__item"><a href="undergraduate.html">本科招生</a></li>
+          <li class="breadcrumb__item" aria-current="page">查询我的留言</li>
+        </ol>
+      </div>
+    </nav>
+    <div class="campus-hero__content">
+      <h1 class="campus-hero__title">查询我的留言</h1>
+      <p class="campus-hero__subtitle">输入您提交留言时填写的手机号，查看留言记录及回复</p>
+    </div>
+  </section>
+
+  <main class="query-main">
+    <div class="query-card">
+      <h2 class="query-card__title">我的留言</h2>
+      <form class="query-form" id="queryForm">
+        <div class="form-group">
+          <label>联系电话 <span>*</span></label>
+          <input type="tel" name="phone" id="queryPhone" placeholder="请输入留言时填写的手机号" required />
+        </div>
+        <div class="form-group">
+          <button type="submit" class="submit-btn" id="queryBtn">查询</button>
+        </div>
+      </form>
+      <div class="query-result" id="queryResult" aria-live="polite">
+        <p class="query-result--empty" id="queryResultPlaceholder">请输入您提交留言时使用的手机号并点击「查询」，即可查看留言列表及回复。</p>
+      </div>
+    </div>
+    <p style="text-align:center; color: var(--color-text-muted); font-size: 14px;">
+      <a href="undergraduate.html">返回本科招生</a> · <a href="inquiry-manage.html">留言管理（演示）</a>
+    </p>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="footer__logo">
+            <img src="ChatGPT Image 2026年2月28日 11_58_13.png" alt="" width="40" height="40" />
+            <span>易普工业大学</span>
+          </a>
+          <p class="footer__tagline">工业报国 · 追求卓越</p>
+        </div>
+        <div class="footer__links">
+          <h4 class="footer__heading">快速链接</h4>
+          <ul class="footer__list">
+            <li><a href="undergraduate.html">本科招生</a></li>
+            <li><a href="inquiry-query.html">留言查询</a></li>
+            <li><a href="index.html">首页</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>&copy; 2025 易普工业大学 版权所有</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/config.js"></script>
+  <script>
+    (function () {
+      var form = document.getElementById('queryForm');
+      var resultEl = document.getElementById('queryResult');
+      var queryBtn = document.getElementById('queryBtn');
+      var apiBase = window.API_BASE || 'http://localhost:3000';
+
+      function escapeHtml(s) {
+        if (s == null || s === undefined) return '';
+        var d = document.createElement('div');
+        d.textContent = String(s);
+        return d.innerHTML;
+      }
+
+      function statusText(s) {
+        if (s === 'replied') return '已回复';
+        if (s === 'processed') return '已处理';
+        return '待处理';
+      }
+
+      function statusClass(s) {
+        if (s === 'replied') return 'query-result-item__status--replied';
+        if (s === 'processed') return 'query-result-item__status--processed';
+        return 'query-result-item__status--pending';
+      }
+
+      function renderList(data) {
+        if (!Array.isArray(data) || data.length === 0) {
+          resultEl.innerHTML = '<p class="query-result--empty">未查到留言记录。请确认手机号是否正确，或是否已提交过留言。</p>';
+          return;
+        }
+        var html = '<ul class="query-result-list">';
+        data.forEach(function (r) {
+          var name = escapeHtml(r.name || '');
+          var phone = escapeHtml(r.phone || '');
+          var type = escapeHtml(r.inquiry_type || '—');
+          var content = escapeHtml((r.content || '').replace(/\n/g, '<br>'));
+          var status = r.status || 'pending';
+          var reply = r.admin_reply ? escapeHtml(String(r.admin_reply).replace(/\n/g, '<br>')) : '';
+          var repliedAt = r.replied_at ? escapeHtml(String(r.replied_at).slice(0, 16).replace('T', ' ')) : '';
+          var created = r.created_at ? escapeHtml(String(r.created_at).slice(0, 16).replace('T', ' ')) : '';
+          html += '<li class="query-result-item">';
+          html += '<div class="query-result-item__row"><span class="query-result-item__label">状态：</span><span class="query-result-item__value"><span class="query-result-item__status ' + statusClass(status) + '">' + statusText(status) + '</span></span></div>';
+          html += '<div class="query-result-item__row"><span class="query-result-item__label">姓名：</span><span class="query-result-item__value">' + name + '</span></div>';
+          html += '<div class="query-result-item__row"><span class="query-result-item__label">联系电话：</span><span class="query-result-item__value">' + phone + '</span></div>';
+          html += '<div class="query-result-item__row"><span class="query-result-item__label">咨询类型：</span><span class="query-result-item__value">' + type + '</span></div>';
+          html += '<div class="query-result-item__row"><span class="query-result-item__label">留言内容：</span><span class="query-result-item__value">' + content + '</span></div>';
+          if (reply) {
+            html += '<div class="query-result-item__reply"><div class="query-result-item__reply-title">招生办回复</div>' + reply + (repliedAt ? '<div class="query-result-item__meta" style="margin-top:8px">回复时间：' + repliedAt + '</div>' : '') + '</div>';
+          }
+          if (created) html += '<div class="query-result-item__meta">提交时间：' + created + '</div>';
+          html += '</li>';
+        });
+        html += '</ul>';
+        resultEl.innerHTML = html;
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var phone = (document.getElementById('queryPhone').value || '').trim().replace(/\s/g, '');
+        if (!phone) {
+          resultEl.innerHTML = '<p class="query-result--error">请输入联系电话。</p>';
+          return;
+        }
+        queryBtn.disabled = true;
+        resultEl.innerHTML = '<p class="query-result--empty">查询中…</p>';
+        var url = apiBase + '/api/inquiries?phone=' + encodeURIComponent(phone) + '&limit=20';
+        fetch(url)
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res && res.success && Array.isArray(res.data)) {
+              renderList(res.data);
+            } else {
+              resultEl.innerHTML = '<p class="query-result--error">' + (res && res.message ? escapeHtml(res.message) : '查询失败，请稍后重试。') + '</p>';
+            }
+          })
+          .catch(function () {
+            resultEl.innerHTML = '<p class="query-result--error">网络错误，请确认后端服务已启动（' + escapeHtml(apiBase) + '）。</p>';
+          })
+          .finally(function () { queryBtn.disabled = false; });
+      });
+    })();
+  </script>
+</body>
+</html>

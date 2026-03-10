@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>易普工业大学 - 官网首页</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <!-- Header -->
+  <header class="header" id="header" role="banner">
+    <div class="header__inner">
+      <a href="#" class="header__logo" aria-label="首页">
+        <img src="ChatGPT Image 2026年2月28日 11_58_13.png" alt="" class="header__logo-badge header__logo-badge--hero" width="48" height="48" aria-hidden="true" />
+        <img src="logo.png" alt="" class="header__logo-badge header__logo-badge--scrolled" width="48" height="48" aria-hidden="true" />
+        <span class="header__logo-text-wrap">
+          <span class="header__logo-title">易普工业大学</span>
+          <span class="header__logo-en">Industrial University</span>
+        </span>
+      </a>
+      <nav class="header__nav" aria-label="主导航">
+        <ul class="header__nav-list">
+          <li><a href="index.html" class="header__nav-home is-disabled">首页</a></li>
+          <li class="has-dropdown">
+            <a href="#about">学校概况</a>
+            <ul class="dropdown">
+              <li><a href="#">校庆献辞</a></li>
+              <li><a href="#">学校沿革</a></li>
+              <li><a href="#">历任领导</a></li>
+              <li><a href="#">现任领导</a></li>
+              <li><a href="#">组织机构</a></li>
+              <li><a href="#">统计资料</a></li>
+              <li><a href="#">信息公开</a></li>
+            </ul>
+          </li>
+          <li><a href="#colleges">院系设置</a></li>
+          <li class="has-dropdown">
+            <a href="#news">教育教学</a>
+            <ul class="dropdown">
+              <li><a href="#">师资队伍</a></li>
+              <li><a href="#">本科生教育</a></li>
+              <li><a href="#">研究生教育</a></li>
+              <li><a href="#">在线教育</a></li>
+              <li><a href="#">终身教育</a></li>
+              <li><a href="#">国际合作</a></li>
+            </ul>
+          </li>
+          <li class="has-dropdown">
+            <a href="#stats">科学研究</a>
+            <ul class="dropdown">
+              <li><a href="#">科研项目</a></li>
+              <li><a href="#">科研机构</a></li>
+              <li><a href="#">科研合作</a></li>
+              <li><a href="#">科研成果</a></li>
+              <li><a href="#">技术转移</a></li>
+              <li><a href="#">学术交流</a></li>
+            </ul>
+          </li>
+          <li><a href="#cta">招生就业</a></li>
+          <li><a href="#gallery">合作交流</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <a href="login.html" class="header__login-btn" id="loginBtn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          <span>登录</span>
+        </a>
+        <div class="header__search-wrap" id="searchWrap">
+          <button type="button" class="header__search" aria-label="搜索" aria-expanded="false" id="searchBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </button>
+          <div class="header__search-inline" id="searchInline" aria-hidden="true">
+            <span class="header__search-icon-inline" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </span>
+            <form class="header__search-form-inline" role="search" id="searchForm">
+              <input type="search" class="header__search-input-inline" id="searchInput" placeholder="搜索新闻、招生、院系…" autocomplete="off" aria-label="搜索" />
+            </form>
+            <button type="button" class="header__search-close-inline" id="searchClose" aria-label="关闭搜索">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+            <div class="header__search-dropdown" id="searchDropdown" aria-hidden="true">
+              <div class="header__search-history-block" id="searchHistoryBlock">
+                <span class="header__search-dropdown-label">历史搜索</span>
+                <ul class="header__search-history-list" id="searchHistoryList"></ul>
+              </div>
+              <div class="header__search-suggestions-block" id="searchSuggestionsBlock">
+                <span class="header__search-dropdown-label">猜你想搜</span>
+                <ul class="header__search-suggestions-list" id="searchSuggestionsList"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="header__menu-btn" aria-label="打开菜单" aria-expanded="false" id="menuBtn">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="header__mobile-nav" id="mobileNav" aria-hidden="true">
+      <ul class="header__mobile-list">
+        <li><a href="#about">学校概况</a></li>
+        <li><a href="#colleges">院系设置</a></li>
+        <li><a href="#news">教育教学</a></li>
+        <li><a href="#stats">科学研究</a></li>
+        <li><a href="#cta">招生就业</a></li>
+        <li><a href="#gallery">合作交流</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero：宣传图轮播 + 左下角文字介绍，自动播放 -->
+    <section class="hero" aria-label="首屏宣传" id="hero">
+      <div class="hero__bg">
+        <div class="hero__bg-slide hero__bg-slide--1" data-slide="0" data-active="true"></div>
+        <div class="hero__bg-slide hero__bg-slide--2" data-slide="1"></div>
+        <div class="hero__bg-slide hero__bg-slide--3" data-slide="2"></div>
+        <div class="hero__bg-overlay"></div>
+      </div>
+      <div class="hero__content">
+        <div class="hero__content-slide" data-slide="0" data-active="true">
+          <span class="hero__meta">2025年2月28日</span>
+          <h1 class="hero__title">我校获批国家首批卓越工程师学院</h1>
+          <p class="hero__desc">教育部公布首批国家卓越工程师学院建设名单，我校成功入选，标志着学校在工程人才培养方面取得重大突破。</p>
+          <a href="#news" class="hero__link">查看详情 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+        <div class="hero__content-slide" data-slide="1">
+          <span class="hero__meta">2025年2月</span>
+          <h1 class="hero__title">易普工业大学 2025 年本科招生启动</h1>
+          <p class="hero__desc">面向全国招收优秀学子，涵盖工学、理学、管理学等多学科，欢迎报考易普工业大学。</p>
+          <a href="#cta" class="hero__link">招生简章 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+        <div class="hero__content-slide" data-slide="2">
+          <span class="hero__meta">校园风采</span>
+          <h1 class="hero__title">产教融合、协同育人</h1>
+          <p class="hero__desc">与多家知名企业共建实践基地，为学生提供一流实训环境与就业通道。</p>
+          <a href="#about" class="hero__link">了解我们 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+      <div class="hero__nav">
+        <button type="button" class="hero__dot" data-slide="0" aria-label="第1张" aria-current="true"></button>
+        <button type="button" class="hero__dot" data-slide="1" aria-label="第2张"></button>
+        <button type="button" class="hero__dot" data-slide="2" aria-label="第3张"></button>
+      </div>
+    </section>
+
+    <!-- 首屏主操作：与导航区分，突出「接下来做什么」 -->
+    <section class="quick-links section quick-links--cta reveal" aria-label="常用服务">
+      <div class="container">
+        <div class="quick-links__grid quick-links__grid--cta">
+          <a href="undergraduate.html" class="cta-card reveal-item">
+            <span class="cta-card__icon-wrap">
+              <span class="cta-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8"/><path d="M8 11h8"/></svg>
+              </span>
+            </span>
+            <h3 class="cta-card__title">本科招生</h3>
+            <p class="cta-card__desc">2025 年招生简章、专业目录与报考指南</p>
+            <span class="cta-card__link">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </a>
+          <a href="graduate.html" class="cta-card reveal-item">
+            <span class="cta-card__icon-wrap">
+              <span class="cta-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8"/><path d="M8 11h8"/></svg>
+              </span>
+            </span>
+            <h3 class="cta-card__title">研究生招生</h3>
+            <p class="cta-card__desc">硕士、博士招生政策与复试安排</p>
+            <span class="cta-card__link">查看详情 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </a>
+          <a href="opencampus.html" class="cta-card reveal-item">
+            <span class="cta-card__icon-wrap">
+              <span class="cta-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+              </span>
+            </span>
+            <h3 class="cta-card__title">校园开放日</h3>
+            <p class="cta-card__desc">预约访校、体验校园文化与设施</p>
+            <span class="cta-card__link">预约参观 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About（横向可切换） -->
+    <section class="about section reveal" id="about" aria-label="学校简介">
+      <div class="container">
+        <h2 class="section-title section-title--center">学校简介</h2>
+        <div class="about__tabs" id="aboutTabs" role="tablist" aria-label="学校简介切换">
+          <button type="button" class="about__tab is-active" data-index="0" role="tab">办学定位</button>
+          <button type="button" class="about__tab" data-index="1" role="tab">发展历程与学科</button>
+          <button type="button" class="about__tab" data-index="2" role="tab">校园文化</button>
+          <button type="button" class="about__tab" data-index="3" role="tab">国际交流</button>
+        </div>
+        <div class="about__carousel" id="aboutCarousel">
+          <div class="about__track" id="aboutTrack">
+            <div class="about__slide" data-index="0">
+              <div class="about__inner">
+                <div class="about__media">
+                  <div class="about__img-wrap">
+                    <img src="https://picsum.photos/id/10/600/400" alt="校园风貌" width="600" height="400" loading="lazy" />
+                  </div>
+                </div>
+                <div class="about__content">
+                  <h3 class="about__slide-title">办学定位</h3>
+                  <p class="about__text">易普工业大学是一所以工为主，工、理、管、文、经、法等多学科协调发展的省属重点大学，致力于培养具有创新精神和实践能力的高素质人才。</p>
+                  <p class="about__text">学校坚持"厚德博学、求实创新"的校训，面向国家战略与区域发展需求，在人才培养、科学研究与社会服务等方面取得显著成效。</p>
+                  <a href="about.html" class="link link--primary">了解更多</a>
+                </div>
+              </div>
+            </div>
+            <div class="about__slide" data-index="1">
+              <div class="about__inner">
+                <div class="about__media">
+                  <div class="about__img-wrap">
+                    <img src="https://picsum.photos/id/20/600/400" alt="学科建设" width="600" height="400" loading="lazy" />
+                  </div>
+                </div>
+                <div class="about__content">
+                  <h3 class="about__slide-title">学科建设</h3>
+                  <p class="about__text">学校拥有多个一级学科博士点与硕士点，工程学、材料科学等学科进入 ESI 全球前 1%，形成以工科为龙头、多学科交叉融合的学科体系。</p>
+                  <p class="about__text">近年来持续加强一流学科与专业建设，与行业龙头企业共建联合实验室，推动产学研深度融合。</p>
+                  <a href="history.html" class="link link--primary">了解更多</a>
+                </div>
+              </div>
+            </div>
+            <div class="about__slide" data-index="2">
+              <div class="about__inner">
+                <div class="about__media">
+                  <div class="about__img-wrap">
+                    <img src="https://picsum.photos/id/30/600/400" alt="校园文化" width="600" height="400" loading="lazy" />
+                  </div>
+                </div>
+                <div class="about__content">
+                  <h3 class="about__slide-title">校园文化</h3>
+                  <p class="about__text">校园内绿树成荫、设施完善，拥有现代化图书馆、体育场馆与实验中心，为学生提供优质的学习与生活条件。</p>
+                  <p class="about__text">学校注重德智体美劳全面发展，每年举办科技节、艺术节、运动会等品牌活动，营造积极向上的校园氛围。</p>
+                  <a href="#" class="link link--primary">了解更多</a>
+                </div>
+              </div>
+            </div>
+            <div class="about__slide" data-index="3">
+              <div class="about__inner">
+                <div class="about__media">
+                  <div class="about__img-wrap">
+                    <img src="https://picsum.photos/id/40/600/400" alt="国际交流" width="600" height="400" loading="lazy" />
+                  </div>
+                </div>
+                <div class="about__content">
+                  <h3 class="about__slide-title">国际交流</h3>
+                  <p class="about__text">学校与多所海外高校建立合作关系，开展联合培养、短期访学与科研合作，拓宽师生国际视野。</p>
+                  <p class="about__text">每年接待海外学者来访，选派优秀学生赴境外交流，持续提升国际化办学水平。</p>
+                  <a href="#" class="link link--primary">了解更多</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button type="button" class="about__nav about__nav--prev" id="aboutPrev" aria-label="上一项">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button type="button" class="about__nav about__nav--next" id="aboutNext" aria-label="下一项">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+          <div class="about__dots" id="aboutDots" aria-label="切换简介"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- News：现代化卡片列表 + 入场与悬停动效 -->
+    <section class="news section reveal" id="news" aria-label="新闻动态">
+      <div class="container">
+        <div class="news__head section-head">
+          <h2 class="section-title news__title">新闻动态</h2>
+          <a href="news.html" class="news__more link">
+            <span>更多</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+        <ul class="news-list" id="newsList">
+          <li class="news-list__item reveal-item is-visible" id="newsListPlaceholder"><span class="news-list__date"></span><span class="news-list__title">加载中…</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Stats 实力数据：仅从接口 /api/stats 渲染，不写死数据 -->
+    <section class="stats section reveal" id="stats" aria-label="实力数据">
+      <div class="container">
+        <header class="stats__header">
+          <h2 class="stats__title">数据见证实力</h2>
+          <p class="stats__tagline">学科建设、科研产出与国际化合作的核心指标</p>
+        </header>
+        <div class="stats__grid" id="statsGrid" aria-busy="true">
+          <p class="stats__loading" id="statsLoading">加载中…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Colleges：仅从接口 /api/colleges 渲染，不写死数据 -->
+    <section class="colleges section reveal" id="colleges" aria-label="院系学科">
+      <div class="container">
+        <h2 class="section-title section-title--center">院系与学科</h2>
+        <div class="colleges__grid" id="collegesGrid" aria-busy="true">
+          <p class="colleges__loading" id="collegesLoading">加载中…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关键日期：仅从接口 /api/key-dates 渲染，保留 id="cta" 供导航锚点 -->
+    <section class="key-dates section reveal" id="cta" aria-label="关键日期">
+      <div class="container">
+        <h2 class="key-dates__title">重要节点</h2>
+        <p class="key-dates__subtitle">招生、入学与校园开放时间一览</p>
+        <div class="key-dates__timeline">
+          <ul class="key-dates__list" id="keyDatesList" role="list" aria-busy="true">
+            <li class="key-dates__loading" id="keyDatesLoading">加载中…</li>
+          </ul>
+        </div>
+        <p class="key-dates__footer">
+          <a href="#" class="link">查看完整校历与招生日程</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- Gallery / 校园风采：大图故事 + 不对称三卡片 + 横向瞬间带 -->
+    <section class="gallery section reveal" id="gallery" aria-label="校园风采">
+      <div class="container">
+        <h2 class="section-title section-title--center">校园风采</h2>
+
+        <!-- 顶部大图故事 -->
+        <div class="campus-hero reveal-item">
+          <div class="campus-hero__image">
+            <img src="https://picsum.photos/id/17/1200/480" alt="傍晚校园全景" loading="lazy" />
+          </div>
+          <div class="campus-hero__overlay">
+            <h3 class="campus-hero__title">四季有景 · 校园有温度</h3>
+            <p class="campus-hero__text">从晨曦到灯火，每一刻都是易普工业大学的日常风景。</p>
+          </div>
+        </div>
+
+        <!-- 中间三卡片（不对称布局） -->
+        <div class="campus-stories">
+          <div class="campus-stories__grid">
+            <article class="campus-story campus-story--large reveal-item">
+              <div class="campus-story__image">
+                <img src="https://picsum.photos/id/18/720/420" alt="图书馆与自习空间" loading="lazy" />
+              </div>
+              <div class="campus-story__content">
+                <h3 class="campus-story__title">安静学习的角落</h3>
+                <p class="campus-story__text">图书馆、自习空间与学习共享区为同学们提供专注与交流并存的学习环境。</p>
+              </div>
+            </article>
+
+            <article class="campus-story campus-story--small reveal-item">
+              <div class="campus-story__image">
+                <img src="https://picsum.photos/id/19/480/320" alt="校园生活场景" loading="lazy" />
+              </div>
+              <div class="campus-story__content">
+                <h3 class="campus-story__title">校园日常</h3>
+                <p class="campus-story__text">食堂、宿舍与运动场，让每一天的学习与生活都舒适而充实。</p>
+              </div>
+            </article>
+
+            <article class="campus-story campus-story--small reveal-item">
+              <div class="campus-story__image">
+                <img src="https://picsum.photos/id/20/480/320" alt="校园活动与社团" loading="lazy" />
+              </div>
+              <div class="campus-story__content">
+                <h3 class="campus-story__title">精彩活动</h3>
+                <p class="campus-story__text">科技节、艺术节与社团活动，为同学们提供展示自我与合作成长的舞台。</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- 底部横向瞬间带 -->
+        <div class="campus-strip" aria-label="校园瞬间">
+          <div class="campus-strip__track">
+            <div class="campus-strip__item reveal-item">
+              <img src="https://picsum.photos/id/21/260/180" alt="操场黄昏" loading="lazy" />
+            </div>
+            <div class="campus-strip__item reveal-item">
+              <img src="https://picsum.photos/id/22/260/180" alt="社团演出" loading="lazy" />
+            </div>
+            <div class="campus-strip__item reveal-item">
+              <img src="https://picsum.photos/id/23/260/180" alt="实验瞬间" loading="lazy" />
+            </div>
+            <div class="campus-strip__item reveal-item">
+              <img src="https://picsum.photos/id/24/260/180" alt="夜色下的教学楼" loading="lazy" />
+            </div>
+            <div class="campus-strip__item reveal-item">
+              <img src="https://picsum.photos/id/25/260/180" alt="节日烟花" loading="lazy" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" id="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__col">
+          <h3 class="footer__heading">快捷链接</h3>
+          <ul class="footer__links">
+            <li><a href="#">学校概况</a></li>
+            <li><a href="#">机构设置</a></li>
+            <li><a href="#">招生信息</a></li>
+            <li><a href="#">人才招聘</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__heading">联系方式</h3>
+          <p class="footer__text">地址：某某市某某区某某路 100 号</p>
+          <p class="footer__text">电话：0000-12345678</p>
+          <p class="footer__text">邮箱：contact@university.edu.cn</p>
+        </div>
+        <div class="footer__col">
+          <h3 class="footer__heading">关注我们</h3>
+          <p class="footer__text">官方微信 / 微博</p>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">© 2025 易普工业大学 版权所有</p>
+        <p class="footer__icp">备案号：京ICP备xxxxxxxx号</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/config.js"></script>
+  <script>
+    (function () {
+      var listEl = document.getElementById('newsList');
+      if (!listEl) return;
+      var placeholder = listEl.querySelector('#newsListPlaceholder');
+      var apiBase = window.API_BASE || 'http://localhost:3000';
+      var pathDir = (window.location.pathname || '').replace(/\/[^/]*$/, '') || '';
+      var detailBase = window.location.origin + (pathDir ? pathDir + '/' : '/');
+      function escapeHtml(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+      function setError(msg) {
+        if (placeholder) { placeholder.querySelector('.news-list__title').textContent = msg || '新闻加载失败'; placeholder.querySelector('.news-list__date').textContent = ''; }
+        else { listEl.innerHTML = '<li class="news-list__item reveal-item is-visible"><span class="news-list__title">' + (msg || '新闻加载失败，请检查网络或后端服务。') + '</span></li>'; }
+      }
+      if (window.location.protocol === 'file:') {
+        setError('请通过本地服务（如 npx serve）访问以加载新闻。');
+        return;
+      }
+      fetch(apiBase + '/api/news?limit=10')
+        .then(function (r) { return r.json(); })
+        .then(function (result) {
+          if (!result || !result.success || !Array.isArray(result.data) || result.data.length === 0) {
+            setError(result && result.message ? result.message : '暂无新闻数据，请先执行 npm run seed:news。');
+            return;
+          }
+          var html = result.data.map(function (item) {
+            var id = (item && item.id != null) ? parseInt(item.id, 10) : 0;
+            if (!id) id = result.data.indexOf(item) + 1;
+            var href = detailBase + 'news-detail.html?id=' + id;
+            var date = escapeHtml(item && item.date_display ? String(item.date_display) : '');
+            var title = escapeHtml(item && item.title ? String(item.title) : '');
+            return '<li class="news-list__item reveal-item is-visible"><a href="' + href + '" data-news-id="' + id + '"><span class="news-list__date">' + date + '</span><span class="news-list__title">' + title + '</span><span class="news-list__arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></span></a></li>';
+          }).join('');
+          listEl.innerHTML = html;
+        })
+        .catch(function () {
+          setError('新闻加载失败，请确认后端已启动（' + apiBase + '）。');
+        });
+    })();
+
+    (function () {
+      var apiBase = window.API_BASE || 'http://localhost:3000';
+      function escapeHtml(s) { var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+      if (window.location.protocol === 'file:') return;
+
+      var statIcons = [
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M8 7h8"/><path d="M8 11h8"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4"/><path d="M12 18v4"/><path d="m4.93 4.93 2.83 2.83"/><path d="m16.24 16.24 2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="m4.93 19.07 2.83-2.83"/><path d="m16.24 7.76 2.83-2.83"/><circle cx="12" cy="12" r="4"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+      ];
+
+      fetch(apiBase + '/api/stats')
+        .then(function (r) { return r.json(); })
+        .then(function (result) {
+          var el = document.getElementById('statsGrid');
+          if (!el) return;
+          if (!result || !result.success || !Array.isArray(result.data) || result.data.length === 0) {
+            el.innerHTML = '<p class="stats__loading">暂无数据，请先执行 npm run seed:stats。</p>';
+            el.removeAttribute('aria-busy');
+            return;
+          }
+          var html = result.data.map(function (item, i) {
+            var icon = statIcons[i % statIcons.length] || statIcons[0];
+            var val = parseInt(item.value, 10) || 0;
+            var unit = escapeHtml(item.unit || '');
+            var label = escapeHtml(item.label || '');
+            var desc = escapeHtml(item.description || '');
+            return '<article class="stat-card reveal-item"><span class="stat-card__icon" aria-hidden="true">' + icon + '</span><div class="stat-block"><span class="stat-card__number" data-target="' + val + '">0</span><span class="stat-card__unit">' + unit + '</span></div><h3 class="stat-card__label">' + label + '</h3><p class="stat-card__desc">' + desc + '</p></article>';
+          }).join('');
+          el.innerHTML = html;
+          el.removeAttribute('aria-busy');
+          window.dispatchEvent(new CustomEvent('homepage:statsRendered'));
+        })
+        .catch(function () {
+          var el = document.getElementById('statsGrid');
+          if (el) { el.innerHTML = '<p class="stats__loading">加载失败，请确认后端已启动。</p>'; el.removeAttribute('aria-busy'); }
+        });
+
+      fetch(apiBase + '/api/colleges')
+        .then(function (r) { return r.json(); })
+        .then(function (result) {
+          var el = document.getElementById('collegesGrid');
+          if (!el) return;
+          if (!result || !result.success || !Array.isArray(result.data) || result.data.length === 0) {
+            el.innerHTML = '<p class="colleges__loading">暂无数据，请先执行 npm run seed:colleges。</p>';
+            el.removeAttribute('aria-busy');
+            return;
+          }
+          var pathDir = (window.location.pathname || '').replace(/\/[^/]*$/, '') || '';
+          var base = window.location.origin + (pathDir ? pathDir + '/' : '/');
+          var html = result.data.map(function (item) {
+            var name = escapeHtml(item.name || '');
+            var desc = escapeHtml(item.description || '');
+            var img = (item.image_url && item.image_url.indexOf('http') === 0) ? item.image_url : (base + (item.image_url || ''));
+            var link = item.link && item.link !== '#' ? item.link : '#';
+            return '<article class="feature-card reveal-item"><div class="feature-card__img-wrap"><img src="' + img + '" alt="' + name + '" width="400" height="300" loading="lazy" /></div><div class="feature-card__body"><h3 class="feature-card__title">' + name + '</h3><p class="feature-card__desc">' + desc + '</p><a href="' + link + '" class="link">了解</a></div></article>';
+          }).join('');
+          el.innerHTML = html;
+          el.removeAttribute('aria-busy');
+          window.dispatchEvent(new CustomEvent('homepage:dynamicContentRendered'));
+        })
+        .catch(function () {
+          var el = document.getElementById('collegesGrid');
+          if (el) { el.innerHTML = '<p class="colleges__loading">加载失败，请确认后端已启动。</p>'; el.removeAttribute('aria-busy'); }
+        });
+
+      fetch(apiBase + '/api/key-dates')
+        .then(function (r) { return r.json(); })
+        .then(function (result) {
+          var listEl = document.getElementById('keyDatesList');
+          if (!listEl) return;
+          if (!result || !result.success || !Array.isArray(result.data) || result.data.length === 0) {
+            listEl.innerHTML = '<li class="key-dates__loading">暂无数据，请先执行 npm run seed:key-dates。</li>';
+            listEl.removeAttribute('aria-busy');
+            return;
+          }
+          var pathDir = (window.location.pathname || '').replace(/\/[^/]*$/, '') || '';
+          var base = window.location.origin + (pathDir ? pathDir + '/' : '/');
+          var linkSvg = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+          var html = result.data.map(function (item, i) {
+            var side = i % 2 === 0 ? 'right' : 'left';
+            var cardClass = (item.card_type && item.card_type.trim()) ? ' key-dates__card--' + item.card_type.trim() : '';
+            var tag = escapeHtml(item.tag || '');
+            var dateDisplay = escapeHtml(item.date_display || '');
+            var datetime = item.datetime ? ' datetime="' + escapeHtml(String(item.datetime).slice(0, 10)) + '"' : '';
+            var label = escapeHtml(item.label || '');
+            var desc = escapeHtml(item.description || '');
+            var link = item.link && item.link !== '#' ? item.link : '#';
+            var linkText = link === 'opencampus.html' ? '预约参观' : (item.tag === '新生入学' ? '报到须知' : (item.tag === '研究生' ? '结果查询' : '查看简章'));
+            return '<li class="key-dates__item key-dates__item--' + side + ' reveal-item"><span class="key-dates__node" aria-hidden="true"></span><div class="key-dates__card' + cardClass + '"><span class="key-dates__tag">' + tag + '</span><time class="key-dates__date"' + datetime + '>' + dateDisplay + '</time><span class="key-dates__label">' + label + '</span><p class="key-dates__desc">' + desc + '</p><a href="' + link + '" class="key-dates__link">' + linkText + ' ' + linkSvg + '</a></div></li>';
+          }).join('');
+          listEl.innerHTML = html;
+          listEl.removeAttribute('aria-busy');
+          window.dispatchEvent(new CustomEvent('homepage:dynamicContentRendered'));
+        })
+        .catch(function () {
+          var listEl = document.getElementById('keyDatesList');
+          if (listEl) { listEl.innerHTML = '<li class="key-dates__loading">加载失败，请确认后端已启动。</li>'; listEl.removeAttribute('aria-busy'); }
+        });
+    })();
+  </script>
+</body>
+</html>
