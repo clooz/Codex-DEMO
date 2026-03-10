@@ -9,7 +9,7 @@
 
   // ==================== 配置 ====================
   var CONFIG = {
-    API_BASE: '/api',
+    API_BASE: window.API_BASE || 'http://localhost:3000',
     SMS_INTERVAL: 60,
     CAPTCHA_KEY: 'login_captcha_token',
     USER_KEY: 'login_user',
@@ -363,60 +363,50 @@
     }
   }
 
-  // ==================== 登录 API（模拟） ====================
+  // ==================== 登录 API（调用后端 POST /login） ====================
   function login(data) {
-    return new Promise(function (resolve) {
-      // 模拟API请求延迟
-      setTimeout(function () {
-        // 模拟登录逻辑
-        var result;
-        
-        if (data.type === 'password') {
-          // 模拟账号密码登录
-          // 实际项目中替换为真实API调用
-          if (data.username === 'admin' && data.password === '123456') {
-            result = {
+    if (data.type === 'password') {
+      var url = CONFIG.API_BASE.replace(/\/$/, '') + '/login';
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: data.username,
+          password: data.password
+        })
+      })
+        .then(function (res) {
+          return res.json().then(function (body) {
+            return { status: res.status, data: body };
+          }).catch(function () {
+            return { status: res.status, data: { success: false, message: '响应格式错误' } };
+          });
+        })
+        .then(function (res) {
+          if (res.status === 200 && res.data && res.data.success) {
+            return {
               success: true,
               message: '登录成功',
               user: {
-                id: 1,
-                username: 'admin',
-                name: '管理员',
-                role: 'admin'
+                id: 0,
+                username: data.username,
+                name: data.username,
+                role: 'user'
               },
-              token: 'mock_token_' + Date.now()
-            };
-          } else {
-            result = {
-              success: false,
-              message: '用户名或密码错误',
-              needRefreshCaptcha: true
+              token: 'logged_in_' + Date.now()
             };
           }
-        } else {
-          // 模拟手机验证码登录
-          if (data.smsCode === '123456') {
-            result = {
-              success: true,
-              message: '登录成功',
-              user: {
-                id: 2,
-                phone: data.phone,
-                name: '用户',
-                role: 'student'
-              },
-              token: 'mock_token_' + Date.now()
-            };
-          } else {
-            result = {
-              success: false,
-              message: '验证码错误'
-            };
-          }
-        }
-        
-        resolve(result);
-      }, 1000);
+          return {
+            success: false,
+            message: (res.data && res.data.message) || '用户名或密码错误',
+            needRefreshCaptcha: true
+          };
+        });
+    }
+    // 短信登录：后端暂未提供接口，提示使用账号密码
+    return Promise.resolve({
+      success: false,
+      message: '短信登录功能开发中，请使用账号密码登录'
     });
   }
 

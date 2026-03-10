@@ -229,8 +229,11 @@
       background: linear-gradient(90deg, transparent, rgba(13,71,161,0.3), transparent);
     }
     
+    /* 覆盖全局 style.css 的 .header（fixed 顶栏），避免登录卡片标题被当成顶栏而重叠 */
     .login-card .header {
-      text-align: center;
+      position: static;
+      display: block;
+      text-align: left;
       margin-bottom: 24px;
     }
     
@@ -238,12 +241,14 @@
       font-size: 26px;
       font-weight: 700;
       color: #0D47A1;
-      margin-bottom: 6px;
+      margin: 0 0 8px 0;
+      line-height: 1.3;
     }
     
     .login-card .header p {
       font-size: 14px;
       color: #5C5C6D;
+      margin: 0 0 6px 0; /* 副标题自身也增加一点下边距 */
     }
     
     .login-pane {
@@ -647,14 +652,6 @@
   </style>
 </head>
 <body>
-  <nav class="breadcrumb breadcrumb--no-offset" aria-label="面包屑导航" style="background: rgba(255,255,255,0.95);">
-    <div class="container">
-      <ol class="breadcrumb__list">
-        <li class="breadcrumb__item"><a href="index.html">首页</a></li>
-        <li class="breadcrumb__item" aria-current="page">登录</li>
-      </ol>
-    </div>
-  </nav>
   <div class="login-page">
     <!-- 背景 -->
     <div class="login-bg">
@@ -752,6 +749,20 @@
   <script src="js/config.js"></script>
   <script>
     (function() {
+      // 已登录用户直接跳转，不再停留在欢迎登录页
+      try {
+        var existingToken = localStorage.getItem('auth_token');
+        var existingUser = localStorage.getItem('user_info');
+        if (existingToken && existingUser) {
+          var params = new URLSearchParams(window.location.search);
+          var redirectTarget = params.get('redirect') || 'index.html';
+          window.location.replace(redirectTarget);
+          return;
+        }
+      } catch (e) {
+        // 本地存储不可用时忽略，继续走正常登录流程
+      }
+
       var form = document.getElementById('loginForm');
       var captchaImg = document.getElementById('captchaImg');
       var pwdToggle = document.getElementById('pwdToggle');
